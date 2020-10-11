@@ -21,6 +21,7 @@ export class Sprite {
 
         }
 
+        
         canvas.context.drawImage(
             this.spritesImage,
             numberOfSprites * this.width,

@@ -4,6 +4,7 @@ export const VISIBLE_SCREEN = true;
 
 
 
+
 export class Common {
     constructor(element){
         if(typeof element === 'undefined'){return}

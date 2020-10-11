@@ -20,6 +20,7 @@ class Loader extends Common {
         this.totalElement = this.bindToElement(LOAD_TOTAL_ID);
         
     }
+    
 
     loadImage(imageUrl){
         
