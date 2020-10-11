@@ -1,5 +1,11 @@
- import { HIDDEN_SCREEN } from '/src/Common.esm.js'
-import {Common} from '/src/Common.esm.js'
+import { VISIBLE_SCREEN } from '/src/Common.esm.js';
+import { HIDDEN_SCREEN } from '/src/Common.esm.js';
+import {Common} from '/src/Common.esm.js';
+import {canvas} from '/src/canvas.js';
+import { DATALOADED_EVENT_NAME } from '/src/Loader.js';
+import { loader } from '/src/Loader.js';
+import { game } from '/src/game.js';
+import { media } from '/src/media.js';
 
  const gameLevels = [
     {
@@ -41,7 +47,17 @@ const LEVEL_SELECT_ID = 'level-select-screen'
      }
 
      buttonOnClcikHandler(event){
-        this.changeVisibiltyScreen(this.element, HIDDEN_SCREEN)
+        this.changeVisibiltyScreen(this.element, HIDDEN_SCREEN);
+        this.changeVisibiltyScreen(canvas.element, VISIBLE_SCREEN);
+        this.loadLevel(event.currentTarget.value);
+    }
+
+    loadLevel(level){
+
+        media.backgroundImage = loader.loadImage('images/levelbackground.png');
+
+
+        window.addEventListener(DATALOADED_EVENT_NAME,()=> game.playLevel(level));
     }
      
  }

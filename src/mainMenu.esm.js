@@ -1,7 +1,7 @@
 
 import { Common,HIDDEN_SCREEN, VISIBLE_SCREEN } from '/src/Common.esm.js';
 import {levelSelect} from '/src/levelSelect.js';
-
+import { CANVAS_WIDTH, CANVAS_HEIGHT} from '/src/canvas.js'
 
 const SCALE_PROPERTY = '--scale-value'
 const START_SCREEN_DATAATT ='start-screen';
@@ -48,7 +48,7 @@ showSettingsScreen(){
 
 resizeGameWindow(){
     const { innerWidth: width, innerHeight: height } = window;
-    const scale = Math.min(width / 640, height / 480);
+    const scale = Math.min(width / CANVAS_WIDTH, height / CANVAS_HEIGHT);
 
     document.documentElement.style.setProperty(SCALE_PROPERTY, scale);
 }
