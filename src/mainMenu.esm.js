@@ -3,7 +3,7 @@ import { Common,HIDDEN_SCREEN, VISIBLE_SCREEN } from '/src/Common.esm.js';
 import {levelSelect} from '/src/levelSelect.js';
 import { CANVAS_WIDTH, CANVAS_HEIGHT} from '/src/canvas.js'
 
-const SCALE_PROPERTY = '--scale-value'
+ export const SCALE_PROPERTY = '--scale-value';
 const START_SCREEN_DATAATT ='start-screen';
 const START_SCREEN_GAME_BUTTON_DATAATT ='start-game';
 const START_SCREEN_SETTINGS_BUTTON_DATAATT ='settings-button';
