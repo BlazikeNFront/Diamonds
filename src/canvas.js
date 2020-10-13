@@ -1,7 +1,6 @@
 import {Common} from '/src/Common.esm.js';
 import { media } from '/src/media.js';
-import  { game } from  '/src/game.js';
-import { gameState } from '/src/game.js';
+
 export const CANVAS_WIDTH = 640;
 export const CANVAS_HEIGHT = 480;
 
