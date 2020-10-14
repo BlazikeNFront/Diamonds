@@ -1,21 +1,22 @@
 
 import { Common, VISIBLE_SCREEN } from '/src/Common.esm.js';
-import { gameLevels } from '/src/gameLevels.js';
+import { gameLevels, EMPTY_BLOCK } from '/src/gameLevels.js';
 import { DATALOADED_EVENT_NAME } from '/src/Loader.js';
 import { canvas } from '/src/canvas.js';
-import { Diamond, DIAMOND_SIZE } from '/src/diamonds.js';
+import { Diamond, DIAMOND_SIZE, NUMBER_OF_DIAMONDS_TYPE } from '/src/diamonds.js';
 import { media } from '/src/media.js';
 import { GameState } from '/src/gameState.js';
 import { mouseController } from '/src/mouseController.js';
+import { resultScreen } from '/src/resultScreen.js';
 export const GAME_BOARD_X_OFFSET = 40;
-export const GAME_BOARD_Y_OFFSET = -5;
+export const GAME_BOARD_Y_OFFSET = 0;
 
 
 const SWAPPING_SPEED = 8;
 const DIAMONDS_ARRAY_WIDTH = 8;
 const DIAMONDS_ARRAY_HEIGHT = DIAMONDS_ARRAY_WIDTH + 1; // with invisible first line;
 const LAST_ELEMENT_DIAMONDS_ARRAY = DIAMONDS_ARRAY_WIDTH * DIAMONDS_ARRAY_HEIGHT - 1;
-
+const TRANSPARCENCY_SPEED = 5;
 
 class Game extends Common {
     constructor(){
@@ -38,23 +39,64 @@ class Game extends Common {
         this.gameState = new GameState(level, numberOfMovements, pointsToWin, gameLevels[level-1].board, media.diamondsSprite)
         this.diamond = new Diamond(50,50,1,1,2,media.diamondsSprite)
         this.animate();
-        console.log(this.gameState.getIsMoving())
+        
     }
 
 
     animate(){
         canvas.drawGameOnCanvas(this.gameState);
 
-       this.handleMouseState();
+        this.handleMouseState();
         this.handleMouseClick();
         this.findMatches();
         this.moveDiamonds();
+        this.hideAnimation();
+        this.countScores();
         this.revertSwap();
-        
+        this.clearMatched();
         this.gameState.getGameBoard().forEach(diamond => diamond.draw());
         this.animationFrame = window.requestAnimationFrame(() => this.animate());
-
+        this.checkEndOfGame();
     }
+
+    clearMatched() {
+		if (this.gameState.getIsMoving()) {
+			return;
+		}
+
+		this.gameState.getGameBoard().forEach((_, idx, diamonds) => {
+			const index = diamonds.length - 1 - idx;
+			const column = Math.floor(index / DIAMONDS_ARRAY_WIDTH);
+			const row = Math.floor(index % DIAMONDS_ARRAY_WIDTH);
+
+			if (diamonds[index].match) {
+				for (let counter = column; counter >= 0; counter--) {
+					if (!diamonds[counter * DIAMONDS_ARRAY_WIDTH + row].match) {
+						this.swap(diamonds[counter * DIAMONDS_ARRAY_WIDTH + row], diamonds[index]);
+						break;
+					}
+				}
+			}
+		});
+
+		this.gameState.getGameBoard().forEach((diamond, index) => {
+			const row = Math.floor(index % DIAMONDS_ARRAY_WIDTH) * DIAMOND_SIZE;
+
+			if (index < DIAMONDS_ARRAY_WIDTH) {
+				diamond.kind = EMPTY_BLOCK;
+				diamond.match = 0;
+			} else if (diamond.match || diamond.kind === EMPTY_BLOCK) {
+				diamond.kind = Math.floor(Math.random() * NUMBER_OF_DIAMONDS_TYPE);
+				diamond.y = 0;
+				diamond.x = row;
+				diamond.match = 0;
+				diamond.alpha = 255;
+			}
+		});
+	}
+
+
+
     handleMouseState() {
 		const isSwaping = !this.gameState.getIsSwaping();
 		const isMoving = !this.gameState.getIsMoving();
@@ -110,36 +152,37 @@ class Game extends Common {
 		mouseController.clicked = false;
     }
     
-    findMatches(){
-        this.gameState.getGameBoard().forEach((diamond,index,diamonds)=> {
+    findMatches() {
+		this.gameState.getGameBoard().forEach((diamond, index, diamonds) => {
+			if (diamond.kind === EMPTY_BLOCK || index < DIAMONDS_ARRAY_WIDTH || index === LAST_ELEMENT_DIAMONDS_ARRAY) {
+				return;
+			}
 
-            if(diamond.kind === EMPTY_BLOCK || index < DIAMONDS_ARRAY_WIDTH || index === LAST_ELEMENT_DIAMONDS_ARRAY){
-                return;
-            }
+			if (
+				diamonds[index - 1].kind === diamond.kind
+				&& diamonds[index + 1].kind === diamond.kind
+			) {
+				if (Math.floor((index - 1) / DIAMONDS_ARRAY_WIDTH) === Math.floor((index + 1) / DIAMONDS_ARRAY_WIDTH)) {
+					for (let i = -1; i <= 1; i++) {
+						diamonds[index + i].match++;
+					}
+				}
+			}
 
-            if(
-                diamonds[index-1].kind === diamond.kind
-                && diamonds[index+1].kind === diamond.kind
-                ){
-                    if(Math.floor((index - 1) / DIAMONDS_ARRAY_WIDTH) === Math.floor(((index + 1) / DIAMONDS_ARRAY_WIDTH))){
-                        for (let i = -1; i<=1;i++){
-                            diamonds[index + i].match++;
-                        }
-                    }
-                }
-
-                if(index >= DIAMONDS_ARRAY_WIDTH
-                    && index<LAST_ELEMENT_DIAMONDS_ARRAY - DIAMONDS_ARRAY_WIDTH +1
-                    && diamonds[index - DIAMONDS_ARRAY_WIDTH].kind === diamond.kind
-                    && diamonds[index + DIAMONDS_ARRAY_WIDTH].kind === diamond.kind){
-                    if((index - DIAMONDS_ARRAY_WIDTH) % DIAMONDS_ARRAY_WIDTH ===(index + DIAMONDS_ARRAY_WIDTH)&DIAMONDS_ARRAY_WIDTH){
-                        for (let i = -DIAMONDS_ARRAY_WIDTH; i <= DIAMONDS_ARRAY_WIDTH; i+= DIAMONDS_ARRAY_WIDTH){
-                            diamonds[index + i].match++;
-                        }
-                    }
-                    }
-        })
-    }
+			if (
+				index >= DIAMONDS_ARRAY_WIDTH
+				&& index < LAST_ELEMENT_DIAMONDS_ARRAY - DIAMONDS_ARRAY_WIDTH + 1
+				&& diamonds[index - DIAMONDS_ARRAY_WIDTH].kind === diamond.kind
+				&& diamonds[index + DIAMONDS_ARRAY_WIDTH].kind === diamond.kind
+			) {
+				if ((index - DIAMONDS_ARRAY_WIDTH) % DIAMONDS_ARRAY_WIDTH === (index + DIAMONDS_ARRAY_WIDTH) % DIAMONDS_ARRAY_WIDTH) {
+					for (let i = -DIAMONDS_ARRAY_WIDTH; i <= DIAMONDS_ARRAY_WIDTH; i+= DIAMONDS_ARRAY_WIDTH) {
+						diamonds[index + i].match++;
+					}
+				}
+			}
+		});
+	}
 
         swapDiamonds(){
             
@@ -171,16 +214,57 @@ class Game extends Common {
             } );
         }
 
-        revertSwap(){
-            if(this.gameState.getIsSwaping() && !this.gameState.getIsMoving()){
-             //   if(!this.scores){
-               //     this.swapDiamonds();
-                //    this.gameState.increasePlayerPointSMovement();
-               // }
-               this.gameState.setIsSwaping(false);
+        hideAnimation() {
+            if (this.gameState.getIsMoving()) {
+                return;
+            }
+    
+            this.gameState.getGameBoard().forEach(diamond => {
+                if (diamond.match && diamond.alpha > TRANSPARCENCY_SPEED) {
+                    diamond.alpha -= TRANSPARCENCY_SPEED;
+                    
+                     
+                }
+            });
+        }
+
+        countScores(){
+            this.scores = 0;
+            this.gameState.getGameBoard().forEach(diamond => this.scores += diamond.match);
+
+            if(!this.gameState.getIsMoving() && this.scores){
+                this.gameState.increasePlayerPoints(this.scores)
             }
         }
 
+        revertSwap(){
+            if(this.gameState.getIsSwaping() && !this.gameState.getIsMoving()){
+               if(!this.scores){
+                   this.swapDiamonds();
+                    this.gameState.increasePlayerPointSMovement();
+                }
+               this.gameState.setIsSwaping(false);
+            }
+        }
+        checkEndOfGame(){
+
+            
+            if(this.gameState.getLeftMovement()>0 && !this.gameState.getIsMoving() && !this.gameState.getIsSwaping()){
+                const isPlayerWinner = this.gameState.isPlayerWinner();
+                
+                
+                if(isPlayerWinner && gameLevels[this.gameState.level]){
+                resultScreen.viewResultScreen(isPlayerWinner,this.gameState.getPlayerPoints(),this.gameState.level)
+               
+                }
+
+                
+
+               
+            } else {
+               // this.animationFrame = window.requestAnimationFrame(() => this.animate())
+            }
+        }
         
         swap(firstDiamond, secondDiamond){
             [
