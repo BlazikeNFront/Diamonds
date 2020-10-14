@@ -3,7 +3,7 @@ import { Sprite } from '/src/sprite.js';
 
 const DIAMOND_ORIGINAL_SIZE = 32;
 export const DIAMOND_SIZE =  48;
-const NUMBER_OF_DIAMONDS_TYPE = 6;
+export const NUMBER_OF_DIAMONDS_TYPE = 6;
 
 const DIAMOND_ZOOM = DIAMOND_SIZE / DIAMOND_ORIGINAL_SIZE;
 
