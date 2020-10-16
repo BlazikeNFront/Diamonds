@@ -29,11 +29,27 @@
      <p class="end-screen__header" data-link='game-result'></p>
       <p class="end-screen__points">YOUR POINTS <span data-link="js-user-points">0</span></p>
       <p class="end-screen__points"> LEVEL RECORD <span data-link="js-high-scores">0</span></p>
-      <div class="end-screen__buttons-wrapper"></div>
+      <div class="end-screen__buttons-wrapper">
       <button class="end-screen__button" data-link='back-to-levels' type='button'></button>
       <button class="end-screen__button end-screen__button--is-restart" data-link='restart-level' type='button'></button>
+        </div>
     </div>
+    <div class="game__layer setting-screen hidden" data-link='setting-screen'>
+        <div class="settings-screen__buttons-group">
+            <button class="settings-screen__button settings-screen__button--is-music" data-link = 'music-on-off' type='button'></button>
+            <button class="settings-screen__button settings-screen__button--is-up" data-link = 'music-increase' type='button'></button>
+            <button class="settings-screen__button settings-screen__button--is-down" data-link = 'music-deacrease' type='button'></button>
+        </div>
+        <div class="settings-screen__buttons-group">
+            <button class="settings-screen__button settings-screen__button--is-sound" data-link = 'sound-on-off' type='button'></button>
+            <button class="settings-screen__button settings-screen__button--is-up" data-link = 'sound-increase' type='button'></button>
+            <button class="settings-screen__button settings-screen__button--is-down" data-link = 'sound-decrease' type='button'></button>
+        </div>
+        <button class="setting-screen__button settings-screen__button--is-exit" data-link='settings-screen-exit-button' type="button"></button>
 
+
+
+    </div>
 
 
 

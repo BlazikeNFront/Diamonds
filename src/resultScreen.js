@@ -1,5 +1,10 @@
-import { VISIBLE_SCREEN } from '/src/Common.esm.js';
+import { VISIBLE_SCREEN , HIDDEN_SCREEN} from '/src/Common.esm.js';
 import { Common } from '/src/Common.esm.js';
+import { canvas } from '/src/canvas.js';
+import { mainMenu } from '/src/mainMenu.esm.js';
+import { userData } from '/src/userData.js';
+import { levelSelect } from '/src/levelSelect.js';
+import { game } from '/src/game.js';
 
 const RESULT_SCREEN_GAME_WIN_CLASS = 'end-screen--is-win';
 const RESULT_SCREEN_END_SCREEN_ID ='end-screen';
@@ -37,10 +42,24 @@ class ResultScreen extends Common {
 		this.changeVisibiltyScreen(this.element, VISIBLE_SCREEN);
 		this.resultTextElement.textContent = isGameWin ? 'WYGRAŁEŚ!' : 'PRZEGRAŁEŚ!';
 		this.userPointsElement.textContent = String(playerPoints);
-		this.highScoresElement.textContent = 700;
+		this.highScoresElement.textContent = String(userData.getHighScore(level));
 
 	}
 
+	
+
+
+	backButtonClick() {
+		this.changeVisibiltyScreen(canvas.element, HIDDEN_SCREEN);
+		this.element.style.setProperty('display', 'none');
+		//this.changeVisibiltyScreen(mainMenu.miniSettingsLayerElement, HIDDEN_SCREEN);
+		mainMenu.showLevelScreen();
+	}
+
+	restartLevelClick() {
+		this.changeVisibiltyScreen(this.element, HIDDEN_SCREEN);
+		levelSelect.loadLevel(game.gameState.level);
+	}
 }
 
 export const resultScreen = new ResultScreen();

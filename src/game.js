@@ -8,6 +8,8 @@ import { media } from '/src/media.js';
 import { GameState } from '/src/gameState.js';
 import { mouseController } from '/src/mouseController.js';
 import { resultScreen } from '/src/resultScreen.js';
+import { userData } from '/src/userData.js';
+
 export const GAME_BOARD_X_OFFSET = 40;
 export const GAME_BOARD_Y_OFFSET = 0;
 
@@ -56,6 +58,7 @@ class Game extends Common {
         this.clearMatched();
         this.gameState.getGameBoard().forEach(diamond => diamond.draw());
         this.animationFrame = window.requestAnimationFrame(() => this.animate());
+        this.checkPosibilityMovement();
         this.checkEndOfGame();
     }
 
@@ -246,19 +249,199 @@ class Game extends Common {
                this.gameState.setIsSwaping(false);
             }
         }
+
+
+        checkPosibilityMovement(){
+            if(this.gameState.getIsMoving()){
+                return
+            }
+
+            this.isPossibleToMove = this.gameState.getGameBoard().some((diamond,index,diamonds) => {
+                if(diamond.kind === EMPTY_BLOCK){
+                    return false;
+                }
+
+                if(
+                    index % DIAMONDS_ARRAY_WIDTH < DIAMONDS_ARRAY_WIDTH -3
+                    &&
+                    diamond.kind === diamonds[index + 2].kind && diamond.kind === diamonds[index + 3].kind
+                ){
+                    return true
+                }
+
+
+
+                if(
+                    index % DIAMONDS_ARRAY_WIDTH < DIAMONDS_ARRAY_WIDTH -1
+                    &&
+                    Math.floor(index / DIAMONDS_ARRAY_WIDTH) > 1
+                    &&
+                    Math.floor(index / DIAMONDS_ARRAY_WIDTH) < DIAMONDS_ARRAY_HEIGHT - 1
+                    && diamond.kind === diamond[index - DIAMONDS_ARRAY_WIDTH + 1].kind
+                    && diamond.kind ===diamond[index - DIAMONDS_ARRAY_WIDTH - 1].kind
+                ){
+                    return true
+                }
+
+
+                
+                if(
+                    index % DIAMONDS_ARRAY_WIDTH < DIAMONDS_ARRAY_WIDTH -1
+                    && Math.floor(index / DIAMONDS_ARRAY_WIDTH) < DIAMONDS_ARRAY_HEIGHT -2 
+                    && diamond.kind === diamonds[index + DIAMONDS_ARRAY_WIDTH + 1].kind 
+                    && diamond.kind === diamonds[index + DIAMONDS_ARRAY_WIDTH * 2 + 1].kind
+                ){
+                    return true
+                }
+
+
+                if(
+                    index % DIAMONDS_ARRAY_WIDTH < DIAMONDS_ARRAY_WIDTH -1
+                    && Math.floor(index / DIAMONDS_ARRAY_WIDTH) > 2  
+                    && diamond.kind === diamonds[index - DIAMONDS_ARRAY_WIDTH + 1].kind 
+                    && diamond.kind === diamonds[index - DIAMONDS_ARRAY_WIDTH * 2 + 1].kind
+                ){
+                    return true
+                }
+
+
+                if(
+                   index % DIAMONDS_ARRAY_WIDTH > 2 
+                   && diamond.kind === diamonds[index - 2].kind
+                   && diamond.kind === diamonds[index - 3].kind
+                ){
+                    return true
+                }
+
+
+                if(
+                  index % DIAMONDS_ARRAY_WIDTH
+                  && Math.floor(index / DIAMONDS_ARRAY_HEIGHT) > 1
+                  && Math.floor(index / DIAMONDS_ARRAY_WIDTH) < DIAMONDS_ARRAY_HEIGHT - 1
+                  && diamond.kind === diamonds[index + DIAMONDS_ARRAY_WIDTH -1].kind
+                  && diamond.kind === diamond[index - DIAMONDS_ARRAY_WIDTH - 1].kind
+                 ){
+                     return true
+                 }
+
+
+                 if(
+                    index % DIAMONDS_ARRAY_WIDTH 
+                    && Math.floor(index / DIAMONDS_ARRAY_WIDTH) < DIAMONDS_ARRAY_HEIGHT - 2
+                    && diamond.kind === diamonds[index + DIAMONDS_ARRAY_WIDTH -1].kind
+                    && diamond.kind === diamonds[index + DIAMONDS_ARRAY_WIDTH * 2 - 1].kind
+                   ){
+                       return true
+                   }
+
+
+                   if(
+                      index % DIAMONDS_ARRAY_WIDTH
+                      && Math.floor(index / DIAMONDS_ARRAY_WIDTH) < DIAMONDS_ARRAY_HEIGHT > 2
+                      && diamond.kind === diamonds[index - DIAMONDS_ARRAY_WIDTH - 1].kind
+                      && diamond.kind === diamonds[index - DIAMONDS_ARRAY_WIDTH * 2 - 1].kind
+                   ){
+                       return true
+                   }
+
+                   if(
+                     Math.floor( index / DIAMONDS_ARRAY_WIDTH) < DIAMONDS_ARRAY_HEIGHT -3
+                     && diamond.kind === diamonds[index + DIAMONDS_ARRAY_WIDTH * 2].kind
+                     && diamond.kind === diamonds[index + DIAMONDS_ARRAY_WIDTH * 3].kind
+                   ) {
+                       return true
+                   }
+
+                   if(
+                    index % DIAMONDS_ARRAY_WIDTH
+                    && index % DIAMONDS_ARRAY_WIDTH < DIAMONDS_ARRAY_WIDTH - 1
+                    && Math.floor(index / DIAMONDS_ARRAY_WIDTH) < DIAMONDS_ARRAY_HEIGHT - 1
+                    && diamond.kind  === diamonds[index + DIAMONDS_ARRAY_WIDTH + 1].kind
+                    && diamond.kind  === diamonds[index + DIAMONDS_ARRAY_WIDTH - 1].kind
+                  ) {
+                      return true
+                  }
+
+                  if(
+                    index % DIAMONDS_ARRAY_WIDTH < DIAMONDS_ARRAY_WIDTH - 2
+                    && Math.floor(index / DIAMONDS_ARRAY_WIDTH)<DIAMONDS_ARRAY_HEIGHT - 1
+                    && diamond.kind === diamonds[index + DIAMONDS_ARRAY_WIDTH + 1].kind
+                    && diamond.kind === diamonds[index + DIAMONDS_ARRAY_WIDTH + 2].kind
+                    ) {
+                        return true
+                    }
+
+                    if(
+                        index % DIAMONDS_ARRAY_WIDTH > 1
+                        && Math.floor(index / DIAMONDS_ARRAY_WIDTH) < DIAMONDS_ARRAY_HEIGHT - 1
+                        && diamond.kind === diamonds[index + DIAMONDS_ARRAY_WIDTH - 1].kind
+                        && diamond.kind === diamonds[index + DIAMONDS_ARRAY_WIDTH - 2].kind
+                        ) {
+                            return true
+                        }
+
+
+                    if(
+                        Math.floor(index / DIAMONDS_ARRAY_WIDTH) > 3
+                        && diamond.kind === diamonds[index - DIAMONDS_ARRAY_WIDTH * 2].kind
+                        && diamond.kind === diamonds[index - DIAMONDS_ARRAY_WIDTH * 3].kind
+                        ) {
+                            return true
+                        }
+                    if(
+                        index % DIAMONDS_ARRAY_WIDTH
+                        && index % DIAMONDS_ARRAY_WIDTH < DIAMONDS_ARRAY_WIDTH - 1
+                        && Math.floor(index /  DIAMONDS_ARRAY_WIDTH) > 1
+                        && diamond.kind === diamonds[index - DIAMONDS_ARRAY_WIDTH + 1].kind
+                        && diamond.kind === diamonds[index - DIAMONDS_ARRAY_WIDTH - 1].kind
+                        ) {
+                             return true
+                         }
+
+                    if(
+                        index % DIAMONDS_ARRAY_WIDTH < DIAMONDS_ARRAY_WIDTH -2
+                        && Math.floor(index /  DIAMONDS_ARRAY_WIDTH) > 1
+                        && diamond.kind === diamonds[index - DIAMONDS_ARRAY_WIDTH + 1].kind
+                        && diamond.kind === diamonds[index - DIAMONDS_ARRAY_WIDTH + 2].kind
+                        ) {
+                             return true
+                         }
+
+                    if(
+                        index % DIAMONDS_ARRAY_WIDTH < DIAMONDS_ARRAY_WIDTH > 1
+                        && Math.floor(index /  DIAMONDS_ARRAY_WIDTH) > 1
+                        && diamond.kind === diamonds[index - DIAMONDS_ARRAY_WIDTH - 1].kind
+                        && diamond.kind === diamonds[index - DIAMONDS_ARRAY_WIDTH - 2].kind
+                        ) {
+                            return true
+                        }
+
+                return false;
+            })
+            if(!this.isPossibleToMove){
+                this.gameState.mixDiamonds();
+            }
+        }
+
+
         checkEndOfGame(){
 
             
             if(this.gameState.getLeftMovement()>0 && !this.gameState.getIsMoving() && !this.gameState.getIsSwaping()){
                 const isPlayerWinner = this.gameState.isPlayerWinner();
+                const currentLevel = Number(this.gameState.level);
                 
+                if(isPlayerWinner && gameLevels[currentLevel]){
+                    if(!userData.checkAvailabilityLevel(currentLevel + 1)){
+                        userData.addNewLevel(Number(currentLevel) + 1);
+                    }
                 
-                if(isPlayerWinner && gameLevels[this.gameState.level]){
-                resultScreen.viewResultScreen(isPlayerWinner,this.gameState.getPlayerPoints(),this.gameState.level)
-               
+                    resultScreen.viewResultScreen(isPlayerWinner,this.gameState.getPlayerPoints(),this.gameState.level)
                 }
 
-                
+                if(userData.getHighScore(currentLevel) < this.gameState.getPlayerPoints()){
+                    userData.setHighScore(currentLevel, this.gameState.getPlayerPoints())
+                }
 
                
             } else {

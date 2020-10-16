@@ -8,7 +8,7 @@ const START_SCREEN_DATAATT ='start-screen';
 const START_SCREEN_GAME_BUTTON_DATAATT ='start-game';
 const START_SCREEN_SETTINGS_BUTTON_DATAATT ='settings-button';
 
-export class MainMenu extends Common {
+ export class MainMenu extends Common {
 constructor(element){
     super();
     
@@ -34,6 +34,7 @@ bindToGameElements(){
 }
 
 showLevelScreen(){
+    levelSelect.createButtons();
 const startScreen = this.bindToElement(START_SCREEN_DATAATT);
 const levelSelectScreen = this.bindToElement('level-select-screen');
 
@@ -58,3 +59,4 @@ resizeGameWindow(){
 
 }
 
+export const mainMenu = new MainMenu();
