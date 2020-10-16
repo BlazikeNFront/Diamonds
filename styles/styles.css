@@ -121,7 +121,131 @@ body {
     background-image: url('/images/leveliconhover.png');
 }
 
+.end-screen {
+    z-index: 11;
+    display:flex;
+    flex-direction: column;
+    padding: 15rem 20rem 10rem;
+    background-image: url('/images/result-screen-lose.png');
+    background-color:rgba(100,100,100,0.3);
+    background-size:30rem;
+    backdrop-filter: blur(0.2rem);
+    background-repeat: no-repeat;
+    background-position: center top;
+}
 
-.hidden{
+.end-screen--is-win {
+    background-image: url('/images/result-screen-win.png');
+   
+}
+
+.end-screen__header {
+    text-align:center;
+    font-size:2rem;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.end-screen__points {
+    margin: 1rem 2rem 3rem;
+    
+}
+
+.end-screen__buttons-wrapper {
+    display: flex;
+    justify-content: space-around;
+}
+
+.end-screen__button {
+    border:0;
+    width:5rem;
+    height:5rem;
+    background-image:url('/images/button-exit.png');
+    background-size:5rem;
+    background-repeat: no-repeat;
+    background-color:transparent;
+    cursor: pointer;
+
+}
+.end-screen__button:hover {
+background-image:url('/images/button-exit-hover.png')
+}
+
+.end-screen__button--is-restart {
+    background-image:url('/images/button-restart.png')
+}
+.end-screen__button--is-restart:hover {
+    background-image:url('/images/button-restart-hover.png')
+}
+
+.settings-screen {
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12.5rem 20rem;
+    z-index: 10;
+    background-image: url('/images/settings-screen.png');
+    background-color:rgba(100,100,100,0.3);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size:35rem;
+    backdrop-filter: blur(0.2rem);
+}
+
+.settings-screen__buttons_group {
+    display:flex;
+    justify-content: center;
+    margin-bottom:3rem;
+}
+
+.settings-screen__button {
+    margin-right:1rem;
+    width:5rem;
+    height:5rem;
+    border:0;
+    background-color:transparent;
+    background-size:5rem;
+    cursor: pointer;
+}
+
+.setting-screen__button--is-music {
+    background-image:url('/images/button-music.png')
+}
+
+.setting-screen__button--is-up {
+    background-image:url('/images/button-plus.png')
+}
+
+.setting-screen__button--is-down {
+    background-image:url('/images/button-minus.png')
+}
+
+.setting-screen__button--is-sound {
+    background-image:url('/images/button-sound.png')
+}
+
+.setting-screen__button--is-exit {
+    background-image:url('/images/button-exit.png')
+}
+
+.setting-screen__button--is-up:hover {
+    background-image:url('/images/button-plus-hover.png')
+}
+
+.setting-screen__button--is-down:hover {
+    background-image:url('/images/button-minus-hover.png')
+}
+
+.setting-screen__button--is-sound:hover {
+    background-image:url('/images/button-sound-hover.png')
+}
+
+.setting-screen__button--is-exit:hover {
+    background-image:url('/images/button-exit-hover.png')
+}
+
+
+
+
+.hidden {
     display:none;
 }
