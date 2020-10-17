@@ -1,4 +1,4 @@
-
+import { settings } from '/src/Settings.js';
 import { Common,HIDDEN_SCREEN, VISIBLE_SCREEN } from '/src/Common.esm.js';
 import {levelSelect} from '/src/levelSelect.js';
 import { CANVAS_WIDTH, CANVAS_HEIGHT} from '/src/canvas.js'
@@ -34,7 +34,7 @@ bindToGameElements(){
 }
 
 showLevelScreen(){
-    levelSelect.createButtons();
+levelSelect.createButtons();
 const startScreen = this.bindToElement(START_SCREEN_DATAATT);
 const levelSelectScreen = this.bindToElement('level-select-screen');
 
@@ -43,7 +43,7 @@ this.changeVisibiltyScreen(levelSelectScreen, VISIBLE_SCREEN);
 }
 
 showSettingsScreen(){
-    console.log('work setting')
+    this.changeVisibiltyScreen(settings.element, VISIBLE_SCREEN);
 }
 
 
