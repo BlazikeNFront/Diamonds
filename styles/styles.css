@@ -177,7 +177,7 @@ background-image:url('/images/button-exit-hover.png')
     background-image:url('/images/button-restart-hover.png')
 }
 
-.settings-screen {
+.setting-screen {
     display:flex;
     flex-direction: column;
     align-items: center;
@@ -191,7 +191,7 @@ background-image:url('/images/button-exit-hover.png')
     backdrop-filter: blur(0.2rem);
 }
 
-.settings-screen__buttons_group {
+.settings-screen__buttons-group {
     display:flex;
     justify-content: center;
     margin-bottom:3rem;
@@ -207,36 +207,39 @@ background-image:url('/images/button-exit-hover.png')
     cursor: pointer;
 }
 
-.setting-screen__button--is-music {
+.settings-screen__button--is-music {
     background-image:url('/images/button-music.png')
 }
 
-.setting-screen__button--is-up {
+.settings-screen__button--is-up {
     background-image:url('/images/button-plus.png')
 }
 
-.setting-screen__button--is-down {
+.settings-screen__button--is-down {
     background-image:url('/images/button-minus.png')
 }
 
-.setting-screen__button--is-sound {
+.settings-screen__button--is-sound {
     background-image:url('/images/button-sound.png')
 }
 
-.setting-screen__button--is-exit {
+.settings-screen__button--is-exit {
     background-image:url('/images/button-exit.png')
 }
 
-.setting-screen__button--is-up:hover {
+.settings-screen__button--is-up:hover {
     background-image:url('/images/button-plus-hover.png')
 }
 
-.setting-screen__button--is-down:hover {
+.settings-screen__button--is-down:hover {
     background-image:url('/images/button-minus-hover.png')
 }
 
-.setting-screen__button--is-sound:hover {
+.settings-screen__button--is-sound:hover {
     background-image:url('/images/button-sound-hover.png')
+}
+.settings-screen__button--is-music:hover {
+    background-image:url('/images/button-music-hover.png')
 }
 
 .setting-screen__button--is-exit:hover {

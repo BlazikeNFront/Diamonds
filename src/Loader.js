@@ -35,7 +35,19 @@ class Loader extends Common {
         image.src = imageUrl;
         
         image.addEventListener('load',(event)=> this.itemLoaded(event),false);
+       
         return image;
+    }
+
+    loadSound(soundUrl){
+        this.changeVisibiltyScreen(this.element, VISIBLE_SCREEN)
+        this.isAllLoaded = false;
+        this.totalCounter++;
+        const audio = new Audio();
+        audio.addEventListener('canplaythrough', e => this.itemLoaded(e),false);
+
+        return audio
+
     }
 
     itemLoaded(event){
