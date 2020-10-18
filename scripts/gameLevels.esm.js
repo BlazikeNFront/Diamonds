@@ -1,15 +1,15 @@
-import { DIAMOND_SIZE } from '/src/diamonds.js';
+import { DIAMOND_SIZE } from './Diamond.esm.js';
 
-const GAME_BOARD_Y_OFFSET = 30;
 export const EMPTY_BLOCK = 99;
-
+export const GAME_BOARD_X_OFFSET = 40;
+export const GAME_BOARD_Y_OFFSET = 20;
 
 export const gameLevels = [
-    {
-        level:1,
-        numberOfMovements: 3,
-        pointsToWin: 200,
-        board: [
+	{
+		level: 1,
+		numberOfMovements: 30,
+		pointsToWin: 7000,
+		board: [
 			{x: 0 * DIAMOND_SIZE, y: -1 * DIAMOND_SIZE + GAME_BOARD_Y_OFFSET, row: 0, column: 0, kind: EMPTY_BLOCK,},
 			{x: 0 * DIAMOND_SIZE, y: -1 * DIAMOND_SIZE + GAME_BOARD_Y_OFFSET, row: 1, column: 0, kind: EMPTY_BLOCK,},
 			{x: 0 * DIAMOND_SIZE, y: -1 * DIAMOND_SIZE + GAME_BOARD_Y_OFFSET, row: 2, column: 0, kind: EMPTY_BLOCK,},
@@ -82,7 +82,7 @@ export const gameLevels = [
 			{x: 5 * DIAMOND_SIZE, y: 7 * DIAMOND_SIZE + GAME_BOARD_Y_OFFSET, row: 5, column: 8, kind: 4,},
 			{x: 6 * DIAMOND_SIZE, y: 7 * DIAMOND_SIZE + GAME_BOARD_Y_OFFSET, row: 6, column: 8, kind: 5,},
 			{x: 7 * DIAMOND_SIZE, y: 7 * DIAMOND_SIZE + GAME_BOARD_Y_OFFSET, row: 7, column: 8, kind: 1,},
-		],
+		]
 	},
 	{
 		level: 2,
@@ -163,7 +163,7 @@ export const gameLevels = [
 			{x: 7 * DIAMOND_SIZE, y: 7 * DIAMOND_SIZE + GAME_BOARD_Y_OFFSET, row: 7, column: 8, kind: 0,},
 		],
 	},
-   
-
-
-]
+	{
+		level: 3,
+	},
+];

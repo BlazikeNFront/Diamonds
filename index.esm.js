@@ -1,6 +1,1 @@
-import {MainMenu} from '/src/mainMenu.esm.js';
-
-
-document.addEventListener('DOMContentLoaded',() => {
-    new MainMenu();
-})
+import { mainMenu } from './scripts/MainMenu.esm.js';
